@@ -14,11 +14,10 @@
  U may use only one allocator for your tasks
  
 
- =====================================================================
 													!!!	IMPORTANT	!!!
+
 BLOCK ALLOCATOR DOES NOT TRACK BLOCK BOUNDARIES WHEN WRITING DATA BY POINTER
 IF YOU EXCEED THE BLOCK SIZE DURING RECORDING, SOME OF THE DATA MAY BE LOST
- =====================================================================
 
  How to use:
  
