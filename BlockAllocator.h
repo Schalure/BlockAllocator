@@ -28,6 +28,10 @@ IF YOU EXCEED THE BLOCK SIZE DURING RECORDING, SOME OF THE DATA MAY BE LOST
  2. U need initialize memory pool in main() before to use allocator, for example:
  BlockAllocator_initialize();
 
+ Note: u can not use this function, if define macro AUTO_INITIALIZE like 1 in BlockAllocator_cfg.h.
+ In this case BlockAllocator_initialize start on first block allocation. You must remember
+ that the initialization time is O(n). By default, auto-initialization is disabled. 
+
  3. For allocate block:
  "your_type"* "var_name" = ("your_type"*)BlockAllocator_newBlock();
  
@@ -36,7 +40,7 @@ IF YOU EXCEED THE BLOCK SIZE DURING RECORDING, SOME OF THE DATA MAY BE LOST
  
  4. For releace all blocks
  BlockAllocator_releaseAll();
- 
+
  5. If u use RTOS please define macros TBlockAllocator_ENTER_CRITICAL() and
 TBlockAllocator_EXIT_CRITICAL() in BlockAllocator_cfg.h according to your RTOS.
 Example defines for FreeRTOS:
@@ -60,6 +64,12 @@ define macro __BLOCK_ALLOCATOR_DEBUG__ in your solution or in BlockAllocator_cfg
 //=====================================================================
 //												Library defines
 //=====================================================================
+//	By default, auto-initialization is disabled. 
+#ifndef AUTO_INITIALIZE
+#define	AUTO_INITIALIZE	0
+#endif // !AUTO_INITIALIZE
+
+
 //	if u use RTOS define fhis in BlocAllocator_cfg.h
 #ifndef BlockAllocator_ENTER_CRITICAL
 #define	BlockAllocator_ENTER_CRITICAL()

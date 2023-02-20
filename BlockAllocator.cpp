@@ -16,13 +16,13 @@
 static uint16_t nextBlockIndexTabel_[BlockAllocator_BLOCK_COUNT];
 //	Memory pool
 static uint8_t memoryPool_[BlockAllocator_BLOCK_COUNT][BlockAllocator_BLOCK_SIZE];
+#endif
 //	Index for new blok (initialize in void BlockAllocator_initialize())
 static uint16_t currentFreeIndex_;
 //	Last free index (initialize in void BlockAllocator_initialize())
 static uint16_t lastFreeIndex_;
 //	
 static bool isInitialized = false;
-#endif
 
 //	block size must bo more then uint64_t pointer
 #define	MINIMUM_BLOCK_SIZE	(8)
@@ -74,6 +74,17 @@ const void* BlockAllocator_newBlock()
 {
 	void* ptr = NULL;
 	uint16_t tempCurrentIndex;
+
+#if	!AUTO_INITIALIZE
+	//	if Block Allocator is not initialized return whith ptr = NULL
+	if(isInitialized)
+		return ptr;
+#else
+	//	initialize
+	BlockAllocator_ENTER_CRITICAL();
+	BlockAllocator_initialize();
+	BlockAllocator_EXIT_CRITICAL();
+#endif
 
 	BlockAllocator_ENTER_CRITICAL();
 
@@ -228,10 +239,10 @@ static void BlockAllocator_deleteBlock_test()
 	}
 
 	//	1. delete random pointer
-	uint8_t* pointer = (uint8_t*)((uint64_t)memoryPool_[0] - sizeof(void*));
+	uint8_t* pointer = (uint8_t*)((uint64_t)memoryPool_[0] - BlockAllocator_BLOCK_SIZE);
 	BlockAllocator_ASSERT(!BlockAllocator_deleteBlock(pointer) && "allocator can free pointer not from memory pool");
 
-	pointer = (uint8_t*)((uint64_t)memoryPool_[BlockAllocator_BLOCK_COUNT - 1] + sizeof(void*));
+	pointer = (uint8_t*)((uint64_t)memoryPool_[BlockAllocator_BLOCK_COUNT - 1] + BlockAllocator_BLOCK_SIZE);
 	BlockAllocator_ASSERT(!BlockAllocator_deleteBlock(pointer) && "allocator can free pointer not from memory pool");
 
 	//	2. re-deleting a block
@@ -243,6 +254,12 @@ static void BlockAllocator_deleteBlock_test()
 	for (uint16_t i = 0; i < BlockAllocator_BLOCK_COUNT; ++i)
 	{
 		BlockAllocator_ASSERT(BlockAllocator_deleteBlock(blockList[i]) && "allocator can't delet block");
+	}
+	uint8_t* block = NULL;
+	for (uint16_t i = 0; i < BlockAllocator_BLOCK_COUNT; ++i)
+	{
+		block = (uint8_t*)BlockAllocator_newBlock();
+		BlockAllocator_ASSERT((block != NULL) && "block can't delete all blocks");
 	}
 }
 

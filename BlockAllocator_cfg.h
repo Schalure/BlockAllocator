@@ -7,14 +7,16 @@
 //	You must uncomment next defines and change:
 //  "BC" to the number of blocks you want
 //	"BS" to the block size you want
-//#define	BLOCK_COUNT	(BC)
-//#define	BLOCK_SIZE	(BS)
+//#define	BlockAllocator_BLOCK_COUNT	(BC)
+//#define	BlockAllocator_BLOCK_SIZE		(CS)
 
+//---------------------------------------------------------------------
+//	uncomment if u want start initialize process on first block allocation
+//#define	AUTO_INITIALIZE	1
 
 //---------------------------------------------------------------------
 //	uncomment if u want to use debug information
-	#define __BLOCK_ALLOCATOR_DEBUG__
-
+//#define __BLOCK_ALLOCATOR_DEBUG__
 
 //---------------------------------------------------------------------
 //	uncomment if u want to use error hooks and implement hook functions:
