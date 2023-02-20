@@ -2,6 +2,7 @@
 #define T_BLOCK_ALLOCATOR_H
 
 #include <cstdint>
+#include <stdlib.h>
 #include "BlockAllocator_cfg.h"
 
 /*
