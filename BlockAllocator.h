@@ -22,7 +22,7 @@ IF YOU EXCEED THE BLOCK SIZE DURING RECORDING, SOME OF THE DATA MAY BE LOST
 
  How to use:
  
- 1. U need to define count of blocks and block size in BlockAllocator_cfg.h, for example:
+ 1. U need to define count of blocks and block size (bytes) in BlockAllocator_cfg.h, for example:
  #define BlockAllocator_BLOCK_COUNT		8 
  #define BlockAllocator_BLOCK_SIZE		8 
  

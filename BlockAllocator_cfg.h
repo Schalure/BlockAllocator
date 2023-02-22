@@ -6,7 +6,7 @@
 //---------------------------------------------------------------------
 //	You must uncomment next defines and change:
 //  "BC" to the number of blocks you want
-//	"BS" to the block size you want
+//	"BS" to the block size (bytes) you want
 //#define	BlockAllocator_BLOCK_COUNT	(BC)
 //#define	BlockAllocator_BLOCK_SIZE		(CS)
 
